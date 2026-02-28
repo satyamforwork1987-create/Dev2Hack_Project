@@ -1,458 +1,359 @@
 # Traano — Personal Finance Anomaly & Behavioral Intelligence Platform
 
-## One-Line Project Description
+## One-Line Description
 Traano is an AI-powered web application that analyzes bank statements, automatically categorizes transactions, and detects unusual financial behavior using statistical anomaly detection and Gemini-generated explainable insights.
 
 ---
 
-<<<<<<< Updated upstream
 # 1. Problem Statement
 
 ## Problem Title
-*Absence of Intelligent Monitoring and Explainable Insights in Personal Digital Finance*
-=======
-# 1. Problem Statement : Personal Finance Anomaly Detector 
-
-## Problem Title
-**Absence of Intelligent Monitoring and Explainable Insights in Personal Digital Finance**
->>>>>>> Stashed changes
-
----
+Absence of Intelligent Monitoring and Explainable Insights in Personal Digital Finance
 
 ## Problem Description
-Today’s users perform most of their financial activity through UPI, credit cards, and online banking, generating hundreds of transactions each month. While banks provide downloadable statements, they only present raw records and basic summaries without meaningful interpretation. As a result, unusual activity such as fraudulent charges, duplicate payments, unfamiliar merchants, or sudden spending spikes often goes unnoticed. Users have access to their financial data but lack tools that automatically analyze spending behavior and proactively highlight irregularities in a simple and understandable way.
+Today's users perform most of their financial activity through UPI, credit cards, and online banking, generating hundreds of transactions each month. While banks provide downloadable statements, they present only raw records and basic summaries without meaningful interpretation.
+
+As a result, unusual activity such as fraudulent charges, duplicate payments, unfamiliar merchants, or sudden spending spikes often goes unnoticed. Users have access to financial data but lack tools that automatically analyze spending behavior and proactively highlight irregularities in a simple and understandable way.
 
 ---
 
 ## Target Users
-<<<<<<< Updated upstream
-•⁠  ⁠College students managing monthly allowances or stipends
 
-•⁠  ⁠Working professionals using UPI and credit cards regularly
-
-•⁠  ⁠Individuals tracking recurring subscriptions and auto-debits
-
-•⁠  ⁠Users concerned about fraudulent or unauthorized transactions
-
-•⁠  ⁠First-time personal finance users seeking financial awareness
-
-•⁠  ⁠Anyone who downloads bank statements but never meaningfully analyzes them
-=======
-- College students managing monthly allowances or stipends
-- Working professionals using UPI and credit cards regularly
-- Individuals tracking recurring subscriptions and auto-debits
-- Users concerned about fraudulent or unauthorized transactions
-- First-time personal finance users seeking financial awareness
-- Anyone who downloads bank statements but never meaningfully analyzes them
->>>>>>> Stashed changes
+- College students managing monthly allowances or stipends  
+- Working professionals using UPI and credit cards regularly  
+- Individuals tracking recurring subscriptions and auto-debits  
+- Users concerned about fraudulent or unauthorized transactions  
+- First-time personal finance users seeking financial awareness  
+- Anyone who downloads bank statements but never meaningfully analyzes them  
 
 ---
 
 ## Existing Gaps
 
-<<<<<<< Updated upstream
-1.⁠ ⁠*Banks provide records, not intelligence*  
-   Banking applications generate statements but do not analyze personal financial behavior.
+1. Banks provide records, not intelligence  
+2. Reactive fraud awareness  
+3. Manual expense categorization  
+4. No behavioral analysis tools  
+5. Lack of explainable alerts  
+6. Unstructured financial data  
 
-2.⁠ ⁠*Reactive fraud awareness*  
-   Users typically discover fraudulent or incorrect transactions only after checking their statements manually.
+---
 
-3.⁠ ⁠*Manual expense categorization*  
-   Existing expense trackers depend heavily on user input, making them inconvenient and unsustainable over time.
+# 2. Use Case Diagram
 
-4.⁠ ⁠*No behavioral analysis tools*  
-   Current personal finance apps focus on budgeting rather than detecting spending pattern changes or anomalies.
+## Actors
+- User  
+- Admin  
+- Gemini API (External AI Service)  
+- Anomaly Detection Service (Python Service)  
 
-5.⁠ ⁠*Lack of explainable alerts*  
-   Alerts, when present, rarely explain why a transaction is unusual, reducing user trust and usefulness.
+## Use Case Diagram
 
-6.⁠ ⁠*Unstructured financial data*  
-=======
-1. **Banks provide records, not intelligence**  
-   Banking applications generate statements but do not analyze personal financial behavior.
+```mermaid
+graph TD
+    subgraph Actors
+        User(["👤 User"])
+        Admin(["🔧 Admin"])
+        Gemini(["🤖 Gemini API"])
+        Anomaly(["📊 Anomaly Detection Service"])
+    end
 
-2. **Reactive fraud awareness**  
-   Users typically discover fraudulent or incorrect transactions only after checking their statements manually.
+    subgraph User Actions
+        Register["Register"]
+        Login["Login"]
+        Upload["Upload Bank Statement"]
+        Dashboard["View Dashboard"]
+        Transactions["View Transactions"]
+        Alerts["View Anomaly Alerts"]
+        Summary["View Financial Summary"]
+        Report["Download Report"]
+    end
 
-3. **Manual expense categorization**  
-   Existing expense trackers depend heavily on user input, making them inconvenient and unsustainable over time.
+    subgraph Processing
+        Extract["Extract Transactions"]
+        Normalize["Normalize Data"]
+        Categorize["Categorize Merchant"]
+        Analyze["Analyze Transactions"]
+        Score["Calculate Anomaly Score"]
+        Shift["Detect Behavioral Shift"]
+        Explain["Generate Explanation"]
+    end
 
-4. **No behavioral analysis tools**  
-   Current personal finance apps focus on budgeting rather than detecting spending pattern changes or anomalies.
+    subgraph Admin Actions
+        ManageUsers["Manage Users"]
+        MonitorLogs["Monitor Logs"]
+        ManageCategories["Manage Categories"]
+    end
 
-5. **Lack of explainable alerts**  
-   Alerts, when present, rarely explain *why* a transaction is unusual, reducing user trust and usefulness.
+    User --> Register
+    User --> Login
+    User --> Upload
+    User --> Dashboard
+    User --> Transactions
+    User --> Alerts
+    User --> Summary
+    User --> Report
 
-6. **Unstructured financial data**  
->>>>>>> Stashed changes
-   Bank statements in PDF or CSV formats are not readily interpretable by non-technical users.
+    Upload --> Extract
+    Extract --> Normalize
+    Normalize --> Categorize
+    Categorize --> Gemini
+
+    Extract --> Analyze
+    Analyze --> Anomaly
+    Analyze --> Score
+    Analyze --> Shift
+    Analyze --> Explain
+    Explain --> Gemini
+
+    Admin --> ManageUsers
+    Admin --> MonitorLogs
+    Admin --> ManageCategories
+```
+
+---
 
 # 3. Proposed Solution
 
 ## Solution Overview
-Traano is a full-stack intelligent financial monitoring platform that converts raw bank statements into meaningful behavioral insights. The system allows users to upload transaction statements in CSV or PDF formats, automatically extracts and structures transactions, categorizes expenses using AI, and analyzes spending behavior using statistical anomaly detection models.
 
-<<<<<<< Updated upstream
-Instead of only visualizing expenses, Traano actively monitors financial patterns and identifies irregular transactions. The platform not only flags anomalies but also explains why a transaction is unusual, enabling users to quickly understand potential risks and spending changes.
-=======
-Instead of only visualizing expenses, Traano actively monitors financial patterns and identifies irregular transactions. The platform not only flags anomalies but also explains *why* a transaction is unusual, enabling users to quickly understand potential risks and spending changes.
->>>>>>> Stashed changes
+Traano converts raw bank statements into meaningful behavioral insights.
 
----
+Users can:
+
+- Upload CSV or PDF statements
+- Automatically extract and structure transactions
+- Categorize expenses using AI
+- Detect unusual spending behavior
+- Receive explainable anomaly alerts
 
 ## Core Idea
-<<<<<<< Updated upstream
-The core idea behind Traano is to shift personal finance from *passive record-keeping to proactive financial awareness*.
 
-Rather than requiring users to manually inspect statements, the system:
-•⁠  ⁠Understands transaction context (merchant behavior)
-•⁠  ⁠Learns normal spending patterns
-•⁠  ⁠Detects deviations
-•⁠  ⁠Provides explainable alerts
-=======
-The core idea behind Traano is to shift personal finance from **passive record-keeping to proactive financial awareness**.
+Shift personal finance from passive record-keeping to proactive financial awareness.
 
-Rather than requiring users to manually inspect statements, the system:
-- Understands transaction context (merchant behavior)
+The system:
+
 - Learns normal spending patterns
 - Detects deviations
-- Provides explainable alerts
->>>>>>> Stashed changes
-
-Traano combines rule-based processing, statistical analysis, and AI reasoning (Gemini API) to interpret financial activity similarly to internal bank monitoring systems, but in a user-centric and transparent manner.
-
----
+- Identifies suspicious merchants
+- Generates explainable insights
 
 ## Key Features
-<<<<<<< Updated upstream
-•⁠  ⁠Upload bank statements (CSV and PDF)
 
-•⁠  ⁠Automatic transaction extraction and normalization
-
-•⁠  ⁠AI-based merchant categorization using Gemini
-
-•⁠  ⁠Detection of unusual spending patterns
-
-•⁠  ⁠New/suspicious merchant identification
-
-•⁠  ⁠Spending frequency change detection
-
-•⁠  ⁠High-value transaction alerts
-
-•⁠  ⁠Behavioral shift analysis
-
-•⁠  ⁠Explainable anomaly risk scores
-
-•⁠  ⁠Visual spending trends and timeline
-
-•⁠  ⁠AI-generated financial summaries and insights
-=======
-- Upload bank statements (CSV and PDF)
-- Automatic transaction extraction and normalization
-- AI-based merchant categorization using Gemini
-- Detection of unusual spending patterns
-- New/suspicious merchant identification
-- Spending frequency change detection
-- High-value transaction alerts
-- Behavioral shift analysis
-- Explainable anomaly risk scores
-- Visual spending trends and timeline
-- AI-generated financial summaries and insights
->>>>>>> Stashed changes
+- CSV and PDF Upload
+- Automatic Data Extraction
+- AI Merchant Categorization
+- Statistical Anomaly Detection
+- Behavioral Shift Detection
+- High-Value Transaction Alerts
+- Suspicious Merchant Identification
+- Risk Scoring
+- Spending Trend Visualization
+- AI-Generated Financial Summaries
 
 ---
 
 # 4. System Architecture
 
 ## High-Level Flow
-User → Frontend → Backend API → Processing & AI Models → Database → Insights & Alerts
 
----
-
-## Architecture Description
-Traano follows a modular full-stack architecture consisting of a web interface, an API server, an AI processing layer, and a database.
-
-<<<<<<< Updated upstream
-1.⁠ ⁠*Frontend (React Web Application)*  
-   Provides dashboard visualizations, file upload interface, anomaly alerts, and financial insights to the user.
-
-2.⁠ ⁠*Backend (Node.js + Express Server)*  
-   Handles authentication, file uploads, parsing of CSV/PDF statements, transaction normalization, and communication with AI services.
-
-3.⁠ ⁠*AI Processing Layer (Python FastAPI Service)*  
-   Performs statistical analysis and anomaly detection using behavioral modeling techniques such as outlier detection, frequency analysis, and pattern deviation tracking.
-
-4.⁠ ⁠*AI Reasoning (Gemini API Integration)*  
-   Used for intelligent merchant categorization, transaction explanation, and generation of human-readable financial insights.
-
-5.⁠ ⁠*Database (MongoDB Atlas)*  
-   Stores users, transactions, categorized records, anomaly scores, and generated insights.
-
-## System Architecture Diagram
-
-![System Architecture Diagram](SystemArchitectureDiagram.png)
-
----
-
-# 5. Database Design
-
-## ER Diagram
-
-![ER Diagram](Diagram%20from%20dbdiagram.png)
-=======
-1. **Frontend (React Web Application)**  
-   Provides dashboard visualizations, file upload interface, anomaly alerts, and financial insights to the user.
-
-2. **Backend (Node.js + Express Server)**  
-   Handles authentication, file uploads, parsing of CSV/PDF statements, transaction normalization, and communication with AI services.
-
-3. **AI Processing Layer (Python FastAPI Service)**  
-   Performs statistical analysis and anomaly detection using behavioral modeling techniques such as outlier detection, frequency analysis, and pattern deviation tracking.
-
-4. **AI Reasoning (Gemini API Integration)**  
-   Used for intelligent merchant categorization, transaction explanation, and generation of human-readable financial insights.
-
-5. **Database (MongoDB Atlas)**  
-   Stores users, transactions, categorized records, anomaly scores, and generated insights.
-
----
+User → Frontend → Backend → AI Processing → Database → Dashboard
 
 ## Architecture Diagram
-(Add system architecture diagram image here)
-
-Suggested diagram components:
-- User
-- React Frontend
-- Express Backend
-- Python Anomaly Service
-- Gemini API
-- MongoDB Database
-- Response Dashboard
-
-# 5. Database Design
-
-## ER Diagram
-(Add ER diagram image here)
->>>>>>> Stashed changes
 
 ---
 
-## ER Diagram Description
-The Traano database is designed to store structured financial data while supporting behavioral analysis and anomaly tracking.
+# 5. Database Design
 
-The system contains four primary entities:
+## Primary Entities
 
-<<<<<<< Updated upstream
-*1. User*
-Stores account information and authentication details.
+### User
 
-*2. Transaction*
-Stores each parsed financial transaction extracted from uploaded bank statements. Each transaction is linked to a user and contains merchant, amount, date, category, and anomaly score.
+- User ID
+- Name
+- Email
+- Password
 
-*3. Category Insight*
-Stores aggregated spending information such as total spending per category, frequency, and trends.
+### Transaction
 
-*4. Generated Insight*
-Stores AI-generated summaries and explanations produced using the Gemini API, including weekly reports and anomaly explanations.
+- Transaction ID
+- User ID
+- Merchant
+- Amount
+- Date
+- Category
+- Anomaly Score
 
-### Relationships
-•⁠  ⁠One User → Many Transactions
-•⁠  ⁠One Transaction → One Category
-•⁠  ⁠One User → Many Insights
-•⁠  ⁠Transactions are analyzed to produce Insights and Anomaly Flags
-=======
-**1. User**
-Stores account information and authentication details.
+### Category Insight
 
-**2. Transaction**
-Stores each parsed financial transaction extracted from uploaded bank statements. Each transaction is linked to a user and contains merchant, amount, date, category, and anomaly score.
+- Category Name
+- Total Spending
+- Frequency
+- Trend
 
-**3. Category Insight**
-Stores aggregated spending information such as total spending per category, frequency, and trends.
+### Generated Insight
 
-**4. Generated Insight**
-Stores AI-generated summaries and explanations produced using the Gemini API, including weekly reports and anomaly explanations.
+- Insight ID
+- User ID
+- Summary
+- Explanation
+- Timestamp
 
-### Relationships
-- One User → Many Transactions
-- One Transaction → One Category
-- One User → Many Insights
-- Transactions are analyzed to produce Insights and Anomaly Flags
->>>>>>> Stashed changes
+## ER Diagram
 
-The schema allows efficient retrieval of user history, behavior trends, and suspicious activity patterns.
+```mermaid
+erDiagram
+    USER ||--o{ TRANSACTION : has
+    USER ||--o{ GENERATED_INSIGHT : generates
+    TRANSACTION }o--|| CATEGORY_INSIGHT : belongs_to
+
+    USER {
+        string user_id
+        string name
+        string email
+        string password
+    }
+
+    TRANSACTION {
+        string transaction_id
+        string merchant
+        float amount
+        date transaction_date
+        string category
+        float anomaly_score
+    }
+
+    CATEGORY_INSIGHT {
+        string category_name
+        float total_spending
+        int frequency
+        string trend
+    }
+
+    GENERATED_INSIGHT {
+        string insight_id
+        string summary
+        string explanation
+        date timestamp
+    }
+```
 
 ---
 
 # 6. Dataset Selected
 
 ## Dataset Name
+
 User Uploaded Bank Transaction Statements
 
 ## Source
-User-provided bank statements (CSV and PDF formats from banks, UPI apps, and credit card providers)
 
-## Data Type
-Semi-structured financial transaction data including:
-<<<<<<< Updated upstream
-•⁠  ⁠Transaction date
-•⁠  ⁠Merchant description
-•⁠  ⁠Debit/Credit amount
-•⁠  ⁠Reference information
+User-provided bank statements (CSV and PDF formats)
 
-## Selection Reason
-The objective of Traano is to analyze *real personal financial behavior*, not synthetic or pre-cleaned datasets. Therefore, the system works directly with raw bank statements as they are downloaded by users. This makes the platform practical and applicable in real-world scenarios.
+## Data Fields
+
+- Transaction Date
+- Merchant Description
+- Debit/Credit Amount
+- Reference Information
 
 ## Preprocessing Steps
-1.⁠ ⁠File upload handling
-2.⁠ ⁠PDF text extraction
-3.⁠ ⁠CSV parsing
-4.⁠ ⁠Column normalization
-5.⁠ ⁠Date standardization
-6.⁠ ⁠Amount cleaning (debit/credit separation)
-7.⁠ ⁠Merchant name cleaning
-8.⁠ ⁠Removal of duplicates
-9.⁠ ⁠Structuring transactions into a unified format
-=======
-- Transaction date
-- Merchant description
-- Debit/Credit amount
-- Reference information
 
-## Selection Reason
-The objective of Traano is to analyze **real personal financial behavior**, not synthetic or pre-cleaned datasets. Therefore, the system works directly with raw bank statements as they are downloaded by users. This makes the platform practical and applicable in real-world scenarios.
+- File upload handling
+- PDF text extraction
+- CSV parsing
+- Column normalization
+- Date standardization
+- Debit/Credit separation
+- Merchant cleaning
+- Duplicate removal
+- Structured formatting
 
-## Preprocessing Steps
-1. File upload handling
-2. PDF text extraction
-3. CSV parsing
-4. Column normalization
-5. Date standardization
-6. Amount cleaning (debit/credit separation)
-7. Merchant name cleaning
-8. Removal of duplicates
-9. Structuring transactions into a unified format
->>>>>>> Stashed changes
+---
 
 # 7. Model Selected
 
 ## Model Name
+
 Hybrid Statistical Anomaly Detection + AI Reasoning (Gemini API)
 
----
+## Why This Model?
 
-## Selection Reasoning
-Financial anomaly detection in personal transactions does not require heavy deep learning models because labeled fraud datasets are not available for individual users. Instead, behavioral deviation detection is more effective.
-
-Traano uses statistical techniques to model normal spending behavior and identify deviations. The Gemini API is used to interpret transactions semantically and generate human-readable explanations.
-
-This hybrid approach ensures:
-<<<<<<< Updated upstream
-•⁠  ⁠Practical implementation
-•⁠  ⁠Explainability
-•⁠  ⁠Low computational cost
-•⁠  ⁠Real-time feedback
-=======
-- Practical implementation
-- Explainability
+- No labeled personal fraud dataset available
+- Behavioral deviation detection is practical
 - Low computational cost
-- Real-time feedback
->>>>>>> Stashed changes
+- Provides explainability
 
----
+## Techniques Used
 
-## Alternatives Considered
-<<<<<<< Updated upstream
-•⁠  ⁠Isolation Forest
-•⁠  ⁠Autoencoders
-•⁠  ⁠Random Forest Classification
-=======
-- Isolation Forest
-- Autoencoders
-- Random Forest Classification
->>>>>>> Stashed changes
-
-These were not selected because they require large labeled datasets and training time, which are impractical for a personal finance setting.
-
----
+- Z-Score Outlier Detection
+- Frequency Deviation Analysis
+- Merchant Novelty Detection
+- Spending Pattern Shift Detection
 
 ## Evaluation Metrics
-<<<<<<< Updated upstream
-•⁠  ⁠Outlier score (Z-score)
-•⁠  ⁠Frequency deviation
-•⁠  ⁠Merchant novelty detection
-•⁠  ⁠Spending behavior change
-•⁠  ⁠False positive rate
-•⁠  ⁠Explainability of alerts
-=======
-- Outlier score (Z-score)
-- Frequency deviation
-- Merchant novelty detection
-- Spending behavior change
-- False positive rate
-- Explainability of alerts
->>>>>>> Stashed changes
+
+- Outlier Score
+- False Positive Rate
+- Behavioral Change Detection
+- Alert Explainability
+
+---
 
 # 8. Technology Stack
 
 ## Frontend
-<<<<<<< Updated upstream
-•⁠  ⁠React (Vite)
-•⁠  ⁠Tailwind CSS
-•⁠  ⁠Recharts (Data Visualization)
-•⁠  ⁠Axios
 
-## Backend
-•⁠  ⁠Node.js
-•⁠  ⁠Express.js
-•⁠  ⁠Multer (file uploads)
-•⁠  ⁠PDF-Parse
-•⁠  ⁠CSV-Parser
-
-## ML / AI
-•⁠  ⁠Python (FastAPI)
-•⁠  ⁠Pandas
-•⁠  ⁠NumPy
-•⁠  ⁠Scikit-learn (statistical modeling)
-•⁠  ⁠Google Gemini API (categorization & explanations)
-
-## Database
-•⁠  ⁠MongoDB Atlas
-•⁠  ⁠Mongoose ODM
-
-## Deployment
-•⁠  ⁠Frontend: Vercel / Netlify
-•⁠  ⁠Backend: Render / Railway
-•⁠  ⁠Python Service: Render
-•⁠  ⁠Database: MongoDB Atlas
-=======
 - React (Vite)
 - Tailwind CSS
-- Recharts (Data Visualization)
+- Recharts
 - Axios
 
 ## Backend
+
 - Node.js
 - Express.js
-- Multer (file uploads)
+- Multer
 - PDF-Parse
 - CSV-Parser
 
-## ML / AI
+## AI / ML
+
 - Python (FastAPI)
 - Pandas
 - NumPy
-- Scikit-learn (statistical modeling)
-- Google Gemini API (categorization & explanations)
+- Scikit-learn
+- Google Gemini API
 
 ## Database
+
 - MongoDB Atlas
 - Mongoose ODM
 
 ## Deployment
+
 - Frontend: Vercel / Netlify
 - Backend: Render / Railway
 - Python Service: Render
 - Database: MongoDB Atlas
 
->>>>>>> Stashed changes
+---
+
+# 9. Future Enhancements
+
+- Real-time bank API integration
+- Mobile application version
+- Personalized budgeting suggestions
+- Predictive expense forecasting
+- Multi-bank account linking
+- Advanced ML-based fraud detection
+
+---
+
+## Developed By
+
+Traano Team
+
+## License
+
+This project is developed for academic and research purposes.
