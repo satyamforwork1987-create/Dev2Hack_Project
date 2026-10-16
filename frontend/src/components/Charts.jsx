@@ -6,27 +6,26 @@ import {
 } from "recharts";
 
 /**
- * Charts — Three responsive visualizations
- *
- * 1. Transaction Trend (LineChart) — daily volume over time
- * 2. Category Distribution (PieChart) — volume breakdown
- * 3. Risk Distribution (BarChart) — Normal / Medium / High counts
+ * Charts — Visualizations for NOVA AI
+ * Solid cream & white theme styling with crisp typography
  */
 
-const PIE_COLORS = ["#6366f1", "#8b5cf6", "#06d6a0", "#f59e0b", "#ef4444", "#ec4899", "#14b8a6", "#f97316"];
-const RISK_COLORS = { Normal: "#34d399", Medium: "#fbbf24", High: "#f87171" };
+const PIE_COLORS = ["#0F2A4A", "#0D9488", "#D97706", "#2563EB", "#7C3AED", "#DB2777", "#059669", "#EA580C"];
+const RISK_COLORS = { Normal: "#15803D", Medium: "#B45309", High: "#B91C1C" };
 
-// Dark tooltip styling
+// Clean Light Tooltip styling
 const tooltipStyle = {
-  backgroundColor: "#1e293b",
-  border: "1px solid #334155",
+  backgroundColor: "#FFFFFF",
+  border: "1px solid #E8E2D6",
   borderRadius: "8px",
   fontSize: "12px",
-  color: "#f1f5f9",
+  color: "#1C1917",
+  boxShadow: "0 4px 12px rgba(28, 25, 23, 0.08)",
+  padding: "8px 12px",
 };
 
 const Charts = ({ transactions }) => {
-  // --- 1. Transaction Trend Data (all types) ---
+  // --- 1. Transaction Trend Data ---
   const spendingTrend = useMemo(() => {
     const dailyMap = {};
     for (const tx of transactions) {
@@ -41,7 +40,7 @@ const Charts = ({ transactions }) => {
       }));
   }, [transactions]);
 
-  // --- 2. Category Distribution Data (all types) ---
+  // --- 2. Category Distribution Data ---
   const categoryData = useMemo(() => {
     const catMap = {};
     for (const tx of transactions) {
@@ -67,121 +66,112 @@ const Charts = ({ transactions }) => {
     }));
   }, [transactions]);
 
-  const cardStyle = {
-    background: "var(--surface-card)",
-    border: "1px solid var(--border)",
-    borderRadius: "14px",
-    padding: "20px",
-  };
-
-  const titleStyle = {
-    fontSize: "13px",
-    fontWeight: 600,
-    color: "var(--text-secondary)",
-    marginBottom: "16px",
-    textTransform: "uppercase",
-    letterSpacing: "0.5px",
-  };
-
   if (transactions.length === 0) return null;
 
-  // Custom tooltip formatter for currency
-  const formatINR = (v) =>
-    "₹" + v.toLocaleString("en-IN");
+  const formatINR = (v) => "₹" + v.toLocaleString("en-IN");
 
   return (
     <div
       style={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
-        gap: "14px",
+        gap: "16px",
         marginBottom: "28px",
       }}
       className="animate-fade-in"
     >
-      {/* Spending Trend — full width */}
-      <div style={{ ...cardStyle, gridColumn: "1 / -1" }}>
-        <p style={titleStyle}>📈 Transaction Trend</p>
+      {/* 1. Spending Trend */}
+      <div
+        className="nova-card"
+        style={{
+          padding: "22px",
+          gridColumn: "1 / -1",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+          <div>
+            <h3 style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              Transaction Volume Trend
+            </h3>
+            <p style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "2px" }}>
+              Daily gross transaction activity across statements
+            </p>
+          </div>
+          <span style={{ fontSize: "12px", color: "var(--primary)", fontWeight: 600, background: "var(--surface-cream)", padding: "4px 10px", borderRadius: "6px" }}>
+            Daily Timeline
+          </span>
+        </div>
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={spendingTrend}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-            <XAxis
-              dataKey="date"
-              tick={{ fontSize: 11, fill: "var(--text-muted)" }}
-              axisLine={{ stroke: "var(--border)" }}
-            />
-            <YAxis
-              tick={{ fontSize: 11, fill: "var(--text-muted)" }}
-              axisLine={{ stroke: "var(--border)" }}
-              tickFormatter={(v) => v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}
-            />
-            <Tooltip
-              contentStyle={tooltipStyle}
-              formatter={(v) => [formatINR(v), "Volume"]}
-            />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E8E2D6" />
+            <XAxis dataKey="date" tick={{ fill: "#78716C", fontSize: 11 }} axisLine={{ stroke: "#E8E2D6" }} />
+            <YAxis tick={{ fill: "#78716C", fontSize: 11 }} tickFormatter={(v) => `₹${v >= 1000 ? `${(v / 1000).toFixed(0)}k` : v}`} axisLine={{ stroke: "#E8E2D6" }} />
+            <Tooltip contentStyle={tooltipStyle} formatter={(val) => [formatINR(val), "Volume"]} />
             <Line
               type="monotone"
               dataKey="amount"
-              stroke="var(--primary)"
-              strokeWidth={2}
-              dot={{ fill: "var(--primary)", r: 3 }}
-              activeDot={{ r: 5, fill: "var(--primary-light)" }}
+              stroke="#0F2A4A"
+              strokeWidth={2.5}
+              dot={{ r: 3, fill: "#0F2A4A", strokeWidth: 1, stroke: "#FFFFFF" }}
+              activeDot={{ r: 6, fill: "#0F2A4A", strokeWidth: 2, stroke: "#FFFFFF" }}
             />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
-      {/* Category Distribution */}
-      <div style={cardStyle}>
-        <p style={titleStyle}>🏷️ Category Breakdown</p>
-        <ResponsiveContainer width="100%" height={260}>
+      {/* 2. Category Breakdown */}
+      <div className="nova-card" style={{ padding: "22px" }}>
+        <h3 style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px" }}>
+          Spending by Category
+        </h3>
+        <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "16px" }}>
+          AI-categorized merchant distribution
+        </p>
+        <ResponsiveContainer width="100%" height={240}>
           <PieChart>
             <Pie
               data={categoryData}
-              dataKey="value"
-              nameKey="name"
               cx="50%"
               cy="50%"
-              innerRadius={55}
-              outerRadius={90}
+              outerRadius={80}
+              innerRadius={45}
               paddingAngle={3}
-              stroke="none"
+              dataKey="value"
             >
-              {categoryData.map((_, i) => (
-                <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
+              {categoryData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
               ))}
             </Pie>
-            <Tooltip
-              contentStyle={tooltipStyle}
-              formatter={(v) => [formatINR(v), "Volume"]}
-            />
-            <Legend
-              wrapperStyle={{ fontSize: "11px", color: "var(--text-muted)" }}
-            />
+            <Tooltip contentStyle={tooltipStyle} formatter={(val) => [formatINR(val), "Spent"]} />
           </PieChart>
         </ResponsiveContainer>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", marginTop: "12px" }}>
+          {categoryData.slice(0, 5).map((entry, i) => (
+            <span key={entry.name} style={{ display: "inline-flex", alignItems: "center", gap: "5px", fontSize: "11px", color: "var(--text-secondary)" }}>
+              <span style={{ width: "8px", height: "8px", borderRadius: "2px", background: PIE_COLORS[i % PIE_COLORS.length] }} />
+              {entry.name}
+            </span>
+          ))}
+        </div>
       </div>
 
-      {/* Risk Distribution */}
-      <div style={cardStyle}>
-        <p style={titleStyle}>🛡️ Risk Distribution</p>
-        <ResponsiveContainer width="100%" height={260}>
+      {/* 3. Risk Distribution */}
+      <div className="nova-card" style={{ padding: "22px" }}>
+        <h3 style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px" }}>
+          Risk Classification
+        </h3>
+        <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "16px" }}>
+          Statistical anomaly detection distribution
+        </p>
+        <ResponsiveContainer width="100%" height={240}>
           <BarChart data={riskData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-            <XAxis
-              dataKey="name"
-              tick={{ fontSize: 11, fill: "var(--text-muted)" }}
-              axisLine={{ stroke: "var(--border)" }}
-            />
-            <YAxis
-              tick={{ fontSize: 11, fill: "var(--text-muted)" }}
-              axisLine={{ stroke: "var(--border)" }}
-              allowDecimals={false}
-            />
-            <Tooltip contentStyle={tooltipStyle} />
-            <Bar dataKey="count" radius={[6, 6, 0, 0]} barSize={40}>
-              {riskData.map((entry, i) => (
-                <Cell key={i} fill={entry.fill} />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E8E2D6" />
+            <XAxis dataKey="name" tick={{ fill: "#78716C", fontSize: 12 }} axisLine={{ stroke: "#E8E2D6" }} />
+            <YAxis tick={{ fill: "#78716C", fontSize: 11 }} axisLine={{ stroke: "#E8E2D6" }} />
+            <Tooltip contentStyle={tooltipStyle} formatter={(val) => [val, "Count"]} />
+            <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+              {riskData.map((entry) => (
+                <Cell key={entry.name} fill={entry.fill} />
               ))}
             </Bar>
           </BarChart>

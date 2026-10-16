@@ -1,5 +1,18 @@
-.vscode
-node_modules
-uploads
+# Dependency directories
+node_modules/
+
+# Environment files (NEVER commit secrets)
 .env
 .env.local
+.env.*
+!.env.example
+frontend/.env
+backend/.env
+
+# Uploads & build outputs
+uploads/
+dist/
+
+# IDE and OS
+.vscode/
+.DS_Store

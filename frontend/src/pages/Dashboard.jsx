@@ -7,11 +7,8 @@ import TransactionTable from "../components/TransactionTable";
 import Charts from "../components/Charts";
 
 /**
- * Dashboard — Main analytics page
- *
- * Fetches transactions + summary from API.
- * Applies client-side filtering for instant responsiveness.
- * Renders: Summary Cards → Charts → Filters → Transaction Table
+ * Dashboard — Financial Intelligence Overview for NOVA AI
+ * Solid cream background, clean white cards, crisp typography
  */
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -26,7 +23,6 @@ const Dashboard = () => {
     dateTo: "",
   });
 
-  // Fetch all data on mount
   useEffect(() => {
     fetchData();
   }, []);
@@ -43,7 +39,6 @@ const Dashboard = () => {
       const txData = txRes.data.data?.transactions || [];
       setTransactions(txData);
 
-      // Compute risk counts from transaction data
       const riskCounts = { Normal: 0, Medium: 0, High: 0 };
       txData.forEach((tx) => {
         riskCounts[tx.riskLevel] = (riskCounts[tx.riskLevel] || 0) + 1;
@@ -61,18 +56,17 @@ const Dashboard = () => {
     }
   };
 
-  // --- Client-side filtering ---
+  const handleFilterChange = (key, val) => {
+    setFilters((prev) => ({ ...prev, [key]: val }));
+  };
+
+  // Client-side filtering
   const filteredTransactions = useMemo(() => {
     return transactions.filter((tx) => {
-      // Risk level
       if (filters.riskLevel !== "All" && tx.riskLevel !== filters.riskLevel)
         return false;
-
-      // Category
       if (filters.category !== "All" && tx.category !== filters.category)
         return false;
-
-      // Date range
       if (filters.dateFrom) {
         const from = new Date(filters.dateFrom);
         if (new Date(tx.date) < from) return false;
@@ -82,23 +76,20 @@ const Dashboard = () => {
         to.setHours(23, 59, 59);
         if (new Date(tx.date) > to) return false;
       }
-
       return true;
     });
   }, [transactions, filters]);
 
-  // Extract unique categories for filter dropdown
   const categories = useMemo(() => {
     const cats = new Set(transactions.map((tx) => tx.category).filter(Boolean));
     return [...cats].sort();
   }, [transactions]);
 
-  // Loading state
   if (loading) {
     return (
       <div
         style={{
-          minHeight: "100vh",
+          minHeight: "calc(100vh - 68px)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -108,17 +99,17 @@ const Dashboard = () => {
         <div style={{ textAlign: "center" }}>
           <div
             style={{
-              width: "40px",
-              height: "40px",
+              width: "36px",
+              height: "36px",
               border: "3px solid var(--border)",
               borderTopColor: "var(--primary)",
               borderRadius: "50%",
-              animation: "spin 0.8s linear infinite",
+              animation: "spin 0.7s linear infinite",
               margin: "0 auto 14px",
             }}
           />
-          <p style={{ fontSize: "13px", color: "var(--text-muted)" }}>
-            Loading dashboard...
+          <p style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-secondary)" }}>
+            Loading statement intelligence...
           </p>
         </div>
       </div>
@@ -126,95 +117,117 @@ const Dashboard = () => {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--surface)" }}>
-      {/* Main Content */}
+    <div style={{ minHeight: "calc(100vh - 68px)", background: "var(--surface)", padding: "32px 0 60px" }}>
       <main
         style={{
-          maxWidth: "1200px",
+          maxWidth: "1220px",
           margin: "0 auto",
-          padding: "24px 20px",
+          padding: "0 24px",
         }}
       >
-        {/* Page Actions */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-          <h2 style={{ fontSize: "22px", fontWeight: 700, color: "var(--text-primary)" }}>Dashboard Overview</h2>
-          <div style={{ display: "flex", gap: "8px" }}>
+        {/* Page Header */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            marginBottom: "28px",
+            flexWrap: "wrap",
+            gap: "16px",
+          }}
+        >
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+              <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--primary)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                Auditing Workspace
+              </span>
+              <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "var(--border-dark)" }} />
+              <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+                Active Statement Batch
+              </span>
+            </div>
+            <h1
+              style={{
+                fontSize: "28px",
+                fontWeight: 800,
+                color: "var(--text-primary)",
+                letterSpacing: "-0.5px",
+              }}
+            >
+              Financial Intelligence Dashboard
+            </h1>
+          </div>
+
+          <div style={{ display: "flex", gap: "10px" }}>
             <button
               onClick={fetchData}
               id="refresh-btn"
-              style={{
-                padding: "8px 16px",
-                borderRadius: "8px",
-                border: "1px solid var(--border)",
-                background: "transparent",
-                color: "var(--text-secondary)",
-                fontSize: "13px",
-                fontWeight: 500,
-                cursor: "pointer",
-                fontFamily: "inherit",
-                transition: "all 0.15s",
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.borderColor = "var(--primary)";
-                e.target.style.color = "var(--primary-light)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.borderColor = "var(--border)";
-                e.target.style.color = "var(--text-secondary)";
-              }}
+              className="secondary-btn"
+              style={{ padding: "9px 16px", fontSize: "13px" }}
             >
-              ↻ Refresh
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 4 23 10 17 10" />
+                <polyline points="1 20 1 14 7 14" />
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+              </svg>
+              Refresh
             </button>
             <button
               onClick={() => navigate("/upload")}
               id="nav-upload"
-              style={{
-                padding: "8px 16px",
-                borderRadius: "8px",
-                border: "none",
-                background: "linear-gradient(135deg, var(--gradient-start), var(--gradient-end))",
-                color: "white",
-                fontSize: "13px",
-                fontWeight: 600,
-                cursor: "pointer",
-                fontFamily: "inherit",
-              }}
+              className="solid-btn"
+              style={{ padding: "9px 18px", fontSize: "13px" }}
             >
-              + Upload
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              Upload Statement
             </button>
           </div>
         </div>
-        {/* Error */}
+
+        {/* Error Banner */}
         {error && (
           <div
+            className="animate-fade-in"
             style={{
               padding: "14px 18px",
               borderRadius: "10px",
-              background: "rgba(239, 68, 68, 0.08)",
-              border: "1px solid rgba(239, 68, 68, 0.15)",
-              color: "var(--danger-light)",
+              background: "var(--risk-high-bg)",
+              border: "1px solid var(--risk-high-border)",
+              color: "var(--risk-high)",
               fontSize: "13px",
-              marginBottom: "20px",
+              marginBottom: "24px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
             }}
           >
-            ⚠️ {error}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            {error}
           </div>
         )}
 
-        {/* Summary Cards */}
+        {/* 1. Summary Cards */}
         <SummaryCards summary={summary} />
 
-        {/* Charts */}
+        {/* 2. Visual Charts */}
         <Charts transactions={filteredTransactions} />
 
-        {/* Filters */}
+        {/* 3. Filters */}
         <Filters
           filters={filters}
-          onChange={setFilters}
+          onChange={handleFilterChange}
           categories={categories}
         />
 
-        {/* Transaction Table */}
+        {/* 4. Transactions Ledger */}
         <TransactionTable transactions={filteredTransactions} />
       </main>
     </div>

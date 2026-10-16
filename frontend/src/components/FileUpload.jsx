@@ -2,10 +2,8 @@ import { useState, useRef } from "react";
 import axiosInstance from "../api/axios";
 
 /**
- * FileUpload — Drag & drop CSV upload with progress
- *
- * Props:
- *   onUploadSuccess(data) — called after successful upload
+ * FileUpload — Drag & drop statement upload for NOVA AI
+ * Clean cream & white aesthetic with crisp SVG iconography
  */
 const FileUpload = ({ onUploadSuccess }) => {
   const [file, setFile] = useState(null);
@@ -34,7 +32,7 @@ const FileUpload = ({ onUploadSuccess }) => {
   const validateAndSet = (f) => {
     const ext = f.name.split(".").pop().toLowerCase();
     if (ext !== "csv") {
-      setError("Only CSV files are supported.");
+      setError("Only CSV statement files are supported.");
       return;
     }
     if (f.size > 50 * 1024 * 1024) {
@@ -60,7 +58,7 @@ const FileUpload = ({ onUploadSuccess }) => {
     try {
       const res = await axiosInstance.post("/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
-        timeout: 300000, // 5 min timeout for large files
+        timeout: 300000,
         onUploadProgress: (e) => {
           setProgress(Math.round((e.loaded * 100) / e.total));
         },
@@ -74,7 +72,7 @@ const FileUpload = ({ onUploadSuccess }) => {
       setError(
         err.response?.data?.error ||
         err.response?.data?.message ||
-        "Upload failed. Please try again."
+        "Upload failed. Please check the file and try again."
       );
     } finally {
       setUploading(false);
@@ -95,15 +93,14 @@ const FileUpload = ({ onUploadSuccess }) => {
         onDrop={handleDrop}
         onClick={() => !uploading && inputRef.current?.click()}
         id="file-drop-zone"
+        className="nova-card"
         style={{
-          border: `2px dashed ${dragActive ? "var(--primary)" : "var(--border-light)"}`,
-          borderRadius: "16px",
-          padding: "52px 24px",
+          border: `2px dashed ${dragActive ? "var(--primary)" : "var(--border-dark)"}`,
+          padding: "48px 24px",
           textAlign: "center",
           cursor: uploading ? "default" : "pointer",
-          transition: "all 0.25s ease",
-          background: dragActive ? "rgba(99, 102, 241, 0.06)" : "var(--surface-card)",
-          position: "relative",
+          transition: "all 0.2s ease",
+          background: dragActive ? "var(--surface-cream)" : "#FFFFFF",
         }}
       >
         <div
@@ -111,22 +108,39 @@ const FileUpload = ({ onUploadSuccess }) => {
             width: "56px",
             height: "56px",
             borderRadius: "14px",
-            background: "linear-gradient(135deg, var(--gradient-start), var(--gradient-end))",
+            background: "var(--surface-cream)",
+            color: "var(--primary)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            margin: "0 auto 14px",
-            fontSize: "24px",
+            margin: "0 auto 16px",
           }}
         >
-          📄
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
         </div>
-        <p style={{ fontSize: "15px", fontWeight: 600, marginBottom: "6px" }}>
-          {dragActive ? "Drop your file here" : "Drag & drop your CSV statement"}
+        <p style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "6px" }}>
+          {dragActive ? "Drop your statement file here" : "Drag & drop your bank statement"}
         </p>
-        <p style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
-          or click to browse • CSV only • Max 50MB
+        <p style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "8px" }}>
+          Accepts any bank statement in CSV format • Max 50MB
         </p>
+        <span
+          style={{
+            fontSize: "12px",
+            color: "var(--primary)",
+            fontWeight: 600,
+            background: "var(--surface-cream)",
+            padding: "4px 12px",
+            borderRadius: "6px",
+            display: "inline-block",
+          }}
+        >
+          Browse Files
+        </span>
         <input
           ref={inputRef}
           type="file"
@@ -139,142 +153,225 @@ const FileUpload = ({ onUploadSuccess }) => {
         />
       </div>
 
-      {/* Selected File */}
+      {/* Selected File Card */}
       {file && (
         <div
-          className="animate-fade-in"
+          className="nova-card animate-fade-in"
           style={{
-            marginTop: "12px",
-            padding: "14px 18px",
-            borderRadius: "10px",
-            background: "var(--surface-card)",
-            border: "1px solid var(--border)",
+            marginTop: "16px",
+            padding: "16px 20px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", overflow: "hidden" }}>
+            <div
               style={{
-                fontSize: "11px",
-                fontWeight: 700,
-                padding: "4px 8px",
-                borderRadius: "6px",
-                background: "rgba(52, 211, 153, 0.12)",
-                color: "var(--accent)",
+                width: "40px",
+                height: "40px",
+                borderRadius: "8px",
+                background: "var(--surface-cream)",
+                color: "var(--primary)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
               }}
             >
-              CSV
-            </span>
-            <div>
-              <p style={{ fontSize: "13px", fontWeight: 600 }}>{file.name}</p>
-              <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+            </div>
+            <div style={{ overflow: "hidden" }}>
+              <p
+                style={{
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "var(--text-primary)",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {file.name}
+              </p>
+              <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>
                 {formatSize(file.size)}
               </p>
             </div>
           </div>
           <button
-            onClick={() => { setFile(null); if (inputRef.current) inputRef.current.value = ""; }}
+            onClick={() => {
+              setFile(null);
+              if (inputRef.current) inputRef.current.value = "";
+            }}
+            disabled={uploading}
             style={{
-              background: "none",
+              background: "transparent",
               border: "none",
               color: "var(--text-muted)",
               cursor: "pointer",
-              fontSize: "16px",
+              padding: "6px",
+              display: "flex",
+              alignItems: "center",
             }}
+            title="Remove file"
           >
-            ✕
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
           </button>
         </div>
       )}
 
-      {/* Upload Button */}
-      <button
-        onClick={handleUpload}
-        disabled={!file || uploading}
-        id="upload-btn"
-        style={{
-          width: "100%",
-          marginTop: "14px",
-          padding: "13px",
-          borderRadius: "10px",
-          border: "none",
-          fontSize: "14px",
-          fontWeight: 600,
-          cursor: file && !uploading ? "pointer" : "not-allowed",
-          background: file && !uploading
-            ? "linear-gradient(135deg, var(--gradient-start), var(--gradient-end))"
-            : "var(--surface-elevated)",
-          color: file && !uploading ? "white" : "var(--text-muted)",
-          transition: "all 0.25s",
-          position: "relative",
-          overflow: "hidden",
-          fontFamily: "inherit",
-        }}
-      >
-        {uploading ? `Uploading... ${progress}%` : "Upload & Analyze"}
-        {uploading && (
+      {/* Upload Progress */}
+      {uploading && (
+        <div style={{ marginTop: "16px" }} className="animate-fade-in">
           <div
             style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              height: "3px",
-              width: `${progress}%`,
-              background: "var(--accent)",
-              transition: "width 0.3s",
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: "12px",
+              fontWeight: 600,
+              color: "var(--text-secondary)",
+              marginBottom: "6px",
             }}
-          />
-        )}
-      </button>
+          >
+            <span>Uploading & running AI anomaly audit...</span>
+            <span>{progress}%</span>
+          </div>
+          <div
+            style={{
+              height: "6px",
+              borderRadius: "4px",
+              background: "var(--border)",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                height: "100%",
+                width: `${progress}%`,
+                background: "var(--primary)",
+                borderRadius: "4px",
+                transition: "width 0.2s ease",
+              }}
+            />
+          </div>
+        </div>
+      )}
 
-      {/* Error */}
+      {/* Upload Button */}
+      {file && !uploading && (
+        <button
+          onClick={handleUpload}
+          className="solid-btn animate-fade-in"
+          id="upload-submit-btn"
+          style={{
+            width: "100%",
+            marginTop: "16px",
+            padding: "14px",
+            fontSize: "14px",
+          }}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+          Audit & Analyze Statement
+        </button>
+      )}
+
+      {/* Error Message */}
       {error && (
         <div
           className="animate-fade-in"
           style={{
-            marginTop: "10px",
-            padding: "10px 14px",
-            borderRadius: "8px",
-            background: "rgba(239, 68, 68, 0.08)",
-            border: "1px solid rgba(239, 68, 68, 0.15)",
-            color: "var(--danger-light)",
-            fontSize: "12px",
+            marginTop: "16px",
+            padding: "14px 18px",
+            borderRadius: "10px",
+            background: "var(--risk-high-bg)",
+            border: "1px solid var(--risk-high-border)",
+            color: "var(--risk-high)",
+            fontSize: "13px",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
           }}
         >
-          ⚠️ {error}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          {error}
         </div>
       )}
 
-      {/* Success Result */}
+      {/* Success Result Summary */}
       {result && (
         <div
-          className="animate-fade-in"
+          className="nova-card animate-fade-in"
           style={{
-            marginTop: "10px",
-            padding: "14px 18px",
-            borderRadius: "10px",
-            background: "rgba(52, 211, 153, 0.06)",
-            border: "1px solid rgba(52, 211, 153, 0.15)",
+            marginTop: "16px",
+            padding: "20px",
+            background: "#FFFFFF",
+            border: "1px solid var(--risk-normal-border)",
           }}
         >
-          <p style={{ fontSize: "13px", fontWeight: 600, color: "var(--accent-light)", marginBottom: "8px" }}>
-            ✅ {result.totalProcessed} transactions processed
-          </p>
-          {result.riskDistribution && (
-            <div style={{ display: "flex", gap: "12px", fontSize: "12px" }}>
-              <span style={{ color: "var(--risk-normal)" }}>
-                Normal: {result.riskDistribution.Normal}
-              </span>
-              <span style={{ color: "var(--risk-medium)" }}>
-                Medium: {result.riskDistribution.Medium}
-              </span>
-              <span style={{ color: "var(--risk-high)" }}>
-                High: {result.riskDistribution.High}
-              </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+            <div
+              style={{
+                width: "28px",
+                height: "28px",
+                borderRadius: "50%",
+                background: "var(--risk-normal-bg)",
+                color: "var(--risk-normal)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
             </div>
-          )}
+            <p style={{ fontSize: "14px", fontWeight: 700, color: "var(--risk-normal)" }}>
+              Statement Successfully Processed
+            </p>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "10px",
+              textAlign: "center",
+              padding: "12px",
+              background: "var(--surface-cream)",
+              borderRadius: "8px",
+            }}
+          >
+            <div>
+              <p style={{ fontSize: "18px", fontWeight: 800, color: "var(--text-primary)" }}>
+                {result.totalProcessed}
+              </p>
+              <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>Transactions</p>
+            </div>
+            <div>
+              <p style={{ fontSize: "18px", fontWeight: 800, color: "var(--risk-normal)" }}>
+                {result.riskDistribution?.Normal || 0}
+              </p>
+              <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>Normal</p>
+            </div>
+            <div>
+              <p style={{ fontSize: "18px", fontWeight: 800, color: "var(--risk-high)" }}>
+                {(result.riskDistribution?.High || 0) + (result.riskDistribution?.Medium || 0)}
+              </p>
+              <p style={{ fontSize: "11px", color: "var(--text-muted)" }}>Anomalies Flagged</p>
+            </div>
+          </div>
         </div>
       )}
     </div>

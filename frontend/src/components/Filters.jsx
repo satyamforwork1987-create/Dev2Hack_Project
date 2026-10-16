@@ -1,8 +1,6 @@
 /**
- * Filters — Risk level, date range, category filtering
- *
- * Updates parent state via onChange callback.
- * Filters are applied client-side for responsiveness.
+ * Filters — Risk level, date range, category filtering for NOVA AI
+ * Clean cream & white styling
  */
 const Filters = ({ filters, onChange, categories }) => {
   const riskLevels = ["All", "Normal", "Medium", "High"];
@@ -11,7 +9,7 @@ const Filters = ({ filters, onChange, categories }) => {
     padding: "8px 12px",
     borderRadius: "8px",
     border: "1px solid var(--border)",
-    background: "var(--surface-card)",
+    background: "#FFFFFF",
     color: "var(--text-primary)",
     fontSize: "13px",
     fontFamily: "inherit",
@@ -23,62 +21,62 @@ const Filters = ({ filters, onChange, categories }) => {
 
   const inputStyle = {
     ...selectStyle,
-    colorScheme: "dark",
+    colorScheme: "light",
   };
 
   return (
     <div
+      className="nova-card animate-fade-in"
       style={{
         display: "flex",
         flexWrap: "wrap",
-        gap: "10px",
+        gap: "12px",
         alignItems: "center",
         marginBottom: "20px",
-        padding: "14px 18px",
-        borderRadius: "12px",
-        background: "var(--surface-card)",
-        border: "1px solid var(--border)",
+        padding: "16px 20px",
       }}
-      className="animate-fade-in"
     >
-      {/* Label */}
-      <span
-        style={{
-          fontSize: "12px",
-          fontWeight: 600,
-          color: "var(--text-muted)",
-          textTransform: "uppercase",
-          letterSpacing: "0.8px",
-          marginRight: "4px",
-        }}
-      >
-        Filters
-      </span>
+      {/* Label with SVG Icon */}
+      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginRight: "4px" }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--primary)" }}>
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+        </svg>
+        <span
+          style={{
+            fontSize: "12px",
+            fontWeight: 700,
+            color: "var(--text-primary)",
+            textTransform: "uppercase",
+            letterSpacing: "0.6px",
+          }}
+        >
+          Filters
+        </span>
+      </div>
 
       {/* Risk Level */}
       <select
         value={filters.riskLevel}
-        onChange={(e) => onChange({ ...filters, riskLevel: e.target.value })}
-        style={selectStyle}
+        onChange={(e) => onChange("riskLevel", e.target.value)}
         id="filter-risk"
-        onFocus={(e) => (e.target.style.borderColor = "var(--primary)")}
-        onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+        style={selectStyle}
       >
-        {riskLevels.map((level) => (
-          <option key={level} value={level}>
-            {level === "All" ? "All Risks" : level + " Risk"}
-          </option>
-        ))}
+        <option value="All">All Risk Levels</option>
+        {riskLevels
+          .filter((l) => l !== "All")
+          .map((level) => (
+            <option key={level} value={level}>
+              {level} Risk
+            </option>
+          ))}
       </select>
 
       {/* Category */}
       <select
         value={filters.category}
-        onChange={(e) => onChange({ ...filters, category: e.target.value })}
-        style={selectStyle}
+        onChange={(e) => onChange("category", e.target.value)}
         id="filter-category"
-        onFocus={(e) => (e.target.style.borderColor = "var(--primary)")}
-        onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+        style={selectStyle}
       >
         <option value="All">All Categories</option>
         {categories.map((cat) => (
@@ -92,63 +90,55 @@ const Filters = ({ filters, onChange, categories }) => {
       <input
         type="date"
         value={filters.dateFrom}
-        onChange={(e) => onChange({ ...filters, dateFrom: e.target.value })}
-        style={inputStyle}
+        onChange={(e) => onChange("dateFrom", e.target.value)}
         id="filter-date-from"
-        placeholder="From"
-        onFocus={(e) => (e.target.style.borderColor = "var(--primary)")}
-        onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+        style={inputStyle}
+        title="From date"
       />
 
       {/* Date To */}
       <input
         type="date"
         value={filters.dateTo}
-        onChange={(e) => onChange({ ...filters, dateTo: e.target.value })}
-        style={inputStyle}
+        onChange={(e) => onChange("dateTo", e.target.value)}
         id="filter-date-to"
-        placeholder="To"
-        onFocus={(e) => (e.target.style.borderColor = "var(--primary)")}
-        onBlur={(e) => (e.target.style.borderColor = "var(--border)")}
+        style={inputStyle}
+        title="To date"
       />
 
-      {/* Clear */}
+      {/* Reset */}
       {(filters.riskLevel !== "All" ||
         filters.category !== "All" ||
         filters.dateFrom ||
         filters.dateTo) && (
         <button
-          onClick={() =>
-            onChange({
-              riskLevel: "All",
-              category: "All",
-              dateFrom: "",
-              dateTo: "",
-            })
-          }
+          onClick={() => {
+            onChange("riskLevel", "All");
+            onChange("category", "All");
+            onChange("dateFrom", "");
+            onChange("dateTo", "");
+          }}
+          id="filter-reset"
           style={{
-            padding: "8px 14px",
+            padding: "8px 12px",
             borderRadius: "8px",
             border: "1px solid var(--border)",
             background: "transparent",
-            color: "var(--text-muted)",
+            color: "var(--danger)",
             fontSize: "12px",
-            fontWeight: 500,
+            fontWeight: 600,
             cursor: "pointer",
-            transition: "all 0.2s",
             fontFamily: "inherit",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "4px",
           }}
-          onMouseEnter={(e) => {
-            e.target.style.color = "var(--danger-light)";
-            e.target.style.borderColor = "var(--danger)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.color = "var(--text-muted)";
-            e.target.style.borderColor = "var(--border)";
-          }}
-          id="filter-clear"
         >
-          ✕ Clear
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+          Reset
         </button>
       )}
     </div>

@@ -2,11 +2,8 @@ import { useState } from "react";
 import RiskBadge from "./RiskBadge";
 
 /**
- * TransactionTable — Sortable, paginated transaction list
- *
- * Columns: Date, Description, Category, Amount, Risk Level, Anomaly Score
- * Sorting: Click column headers to toggle sort
- * Pagination: 15 rows per page
+ * TransactionTable — Sortable, paginated transaction ledger for NOVA AI
+ * Clean cream & white table styling with SVG icons
  */
 const ROWS_PER_PAGE = 15;
 
@@ -71,73 +68,90 @@ const TransactionTable = ({ transactions }) => {
     }).format(Math.abs(n));
 
   const SortIcon = ({ active, order }) => (
-    <span
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       style={{
         marginLeft: "4px",
-        fontSize: "10px",
-        opacity: active ? 1 : 0.3,
-        color: active ? "var(--primary-light)" : "var(--text-muted)",
+        verticalAlign: "middle",
+        color: active ? "var(--primary)" : "var(--text-muted)",
+        transform: active && order === "asc" ? "rotate(180deg)" : "none",
+        transition: "transform 0.15s",
       }}
     >
-      {active ? (order === "asc" ? "▲" : "▼") : "⇅"}
-    </span>
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
   );
 
   const headerStyle = {
     fontSize: "11px",
-    fontWeight: 600,
-    color: "var(--text-muted)",
+    fontWeight: 700,
+    color: "var(--text-secondary)",
     textTransform: "uppercase",
-    letterSpacing: "0.8px",
+    letterSpacing: "0.6px",
     cursor: "pointer",
     userSelect: "none",
-    transition: "color 0.15s",
-    padding: "12px 0",
+    padding: "14px 0",
+    display: "flex",
+    alignItems: "center",
   };
 
   if (transactions.length === 0) {
     return (
       <div
+        className="nova-card"
         style={{
-          background: "var(--surface-card)",
-          border: "1px solid var(--border)",
-          borderRadius: "14px",
           padding: "60px 32px",
           textAlign: "center",
         }}
       >
-        <p style={{ fontSize: "36px", marginBottom: "12px" }}>📋</p>
-        <p
-          style={{ fontSize: "15px", fontWeight: 600, color: "var(--text-primary)", marginBottom: "6px" }}
+        <div
+          style={{
+            width: "56px",
+            height: "56px",
+            borderRadius: "12px",
+            background: "var(--surface-cream)",
+            color: "var(--primary)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            margin: "0 auto 16px",
+          }}
         >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+          </svg>
+        </div>
+        <p style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "6px" }}>
           No transactions yet
         </p>
         <p style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
-          Upload a bank statement to see your data here.
+          Upload a bank statement CSV to audit transactions and detect anomalies.
         </p>
       </div>
     );
   }
 
   return (
-    <div
-      style={{
-        background: "var(--surface-card)",
-        border: "1px solid var(--border)",
-        borderRadius: "14px",
-        overflow: "hidden",
-      }}
-      className="animate-fade-in"
-    >
+    <div className="nova-card animate-fade-in" style={{ overflow: "hidden" }}>
       {/* Table Header */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "110px 1fr 120px 120px 100px 90px",
-          gap: "8px",
-          padding: "0 20px",
+          gridTemplateColumns: "120px 1fr 140px 130px 120px 90px",
+          gap: "12px",
+          padding: "0 24px",
           borderBottom: "1px solid var(--border)",
-          background: "rgba(99, 102, 241, 0.03)",
+          background: "var(--surface-cream)",
         }}
       >
         <div style={headerStyle} onClick={() => handleSort("date")}>
@@ -145,10 +159,10 @@ const TransactionTable = ({ transactions }) => {
         </div>
         <div style={{ ...headerStyle, cursor: "default" }}>Description</div>
         <div style={headerStyle} onClick={() => handleSort("category")}>
-          Category
+          Category <SortIcon active={sortKey === "category"} order={sortOrder} />
         </div>
         <div
-          style={{ ...headerStyle, textAlign: "right" }}
+          style={{ ...headerStyle, justifyContent: "flex-end" }}
           onClick={() => handleSort("amount")}
         >
           Amount <SortIcon active={sortKey === "amount"} order={sortOrder} />
@@ -157,11 +171,10 @@ const TransactionTable = ({ transactions }) => {
           Risk <SortIcon active={sortKey === "riskLevel"} order={sortOrder} />
         </div>
         <div
-          style={{ ...headerStyle, textAlign: "right" }}
+          style={{ ...headerStyle, justifyContent: "flex-end" }}
           onClick={() => handleSort("anomalyScore")}
         >
-          Score{" "}
-          <SortIcon active={sortKey === "anomalyScore"} order={sortOrder} />
+          Score <SortIcon active={sortKey === "anomalyScore"} order={sortOrder} />
         </div>
       </div>
 
@@ -171,31 +184,19 @@ const TransactionTable = ({ transactions }) => {
           key={tx._id || i}
           style={{
             display: "grid",
-            gridTemplateColumns: "110px 1fr 120px 120px 100px 90px",
-            gap: "8px",
-            padding: "12px 20px",
-            borderBottom:
-              i < paginated.length - 1
-                ? "1px solid rgba(30, 41, 59, 0.6)"
-                : "none",
+            gridTemplateColumns: "120px 1fr 140px 130px 120px 90px",
+            gap: "12px",
+            padding: "14px 24px",
+            borderBottom: i < paginated.length - 1 ? "1px solid var(--border)" : "none",
             transition: "background 0.12s",
             alignItems: "center",
+            background: "#FFFFFF",
           }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.background = "var(--surface-card-hover)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.background = "transparent")
-          }
+          onMouseEnter={(e) => (e.currentTarget.style.background = "var(--surface-card-hover)")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "#FFFFFF")}
         >
           {/* Date */}
-          <span
-            style={{
-              fontSize: "12px",
-              color: "var(--text-secondary)",
-              fontVariantNumeric: "tabular-nums",
-            }}
-          >
+          <span style={{ fontSize: "13px", color: "var(--text-secondary)", fontVariantNumeric: "tabular-nums" }}>
             {formatDate(tx.date)}
           </span>
 
@@ -203,7 +204,7 @@ const TransactionTable = ({ transactions }) => {
           <span
             style={{
               fontSize: "13px",
-              fontWeight: 500,
+              fontWeight: 600,
               color: "var(--text-primary)",
               overflow: "hidden",
               textOverflow: "ellipsis",
@@ -217,116 +218,98 @@ const TransactionTable = ({ transactions }) => {
           <span
             style={{
               fontSize: "12px",
-              color: "var(--text-muted)",
+              fontWeight: 500,
+              color: "var(--text-secondary)",
+              background: "var(--surface-cream)",
+              padding: "3px 8px",
+              borderRadius: "5px",
+              width: "fit-content",
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
           >
-            {tx.category || "—"}
+            {tx.category || "Others"}
           </span>
 
           {/* Amount */}
           <span
             style={{
               fontSize: "13px",
-              fontWeight: 600,
+              fontWeight: 700,
               textAlign: "right",
               fontVariantNumeric: "tabular-nums",
-              color:
-                tx.type === "credit"
-                  ? "var(--accent-light)"
-                  : "var(--text-primary)",
+              color: tx.type === "credit" ? "var(--risk-normal)" : "var(--text-primary)",
             }}
           >
-            {tx.type === "credit" ? "+" : "−"}
+            {tx.type === "credit" ? "+ " : "- "}
             {formatCurrency(tx.amount)}
           </span>
 
-          {/* Risk Badge */}
-          <RiskBadge level={tx.riskLevel} />
+          {/* Risk Level */}
+          <div>
+            <RiskBadge level={tx.riskLevel} score={0} />
+          </div>
 
-          {/* Score */}
+          {/* Anomaly Score */}
           <span
             style={{
               fontSize: "12px",
               fontWeight: 600,
               textAlign: "right",
               fontVariantNumeric: "tabular-nums",
-              color:
-                tx.anomalyScore >= 60
-                  ? "var(--risk-high)"
-                  : tx.anomalyScore >= 30
-                  ? "var(--risk-medium)"
-                  : "var(--text-muted)",
+              color: tx.anomalyScore >= 60 ? "var(--risk-high)" : tx.anomalyScore >= 30 ? "var(--risk-medium)" : "var(--text-muted)",
             }}
           >
-            {tx.anomalyScore}
+            {tx.anomalyScore || 0}
           </span>
         </div>
       ))}
 
-      {/* Pagination */}
+      {/* Pagination Footer */}
       {totalPages > 1 && (
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: "12px 20px",
+            padding: "14px 24px",
             borderTop: "1px solid var(--border)",
-            fontSize: "12px",
-            color: "var(--text-muted)",
+            background: "var(--surface-cream)",
           }}
         >
-          <span>
-            Showing {(page - 1) * ROWS_PER_PAGE + 1}–
-            {Math.min(page * ROWS_PER_PAGE, sorted.length)} of {sorted.length}
+          <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+            Showing {(page - 1) * ROWS_PER_PAGE + 1}–{Math.min(page * ROWS_PER_PAGE, sorted.length)} of {sorted.length} transactions
           </span>
-          <div style={{ display: "flex", gap: "6px" }}>
+          <div style={{ display: "flex", gap: "8px" }}>
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
+              className="secondary-btn"
               style={{
                 padding: "6px 12px",
-                borderRadius: "6px",
-                border: "1px solid var(--border)",
-                background: "transparent",
-                color: page === 1 ? "var(--text-muted)" : "var(--text-secondary)",
                 fontSize: "12px",
-                cursor: page === 1 ? "not-allowed" : "pointer",
-                fontFamily: "inherit",
+                opacity: page === 1 ? 0.5 : 1,
+                cursor: page === 1 ? "default" : "pointer",
               }}
             >
-              ← Prev
+              Previous
             </button>
-            <span
-              style={{
-                padding: "6px 12px",
-                fontSize: "12px",
-                color: "var(--text-secondary)",
-              }}
-            >
+            <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-primary)", alignSelf: "center", padding: "0 6px" }}>
               {page} / {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
+              className="secondary-btn"
               style={{
                 padding: "6px 12px",
-                borderRadius: "6px",
-                border: "1px solid var(--border)",
-                background: "transparent",
-                color:
-                  page === totalPages
-                    ? "var(--text-muted)"
-                    : "var(--text-secondary)",
                 fontSize: "12px",
-                cursor: page === totalPages ? "not-allowed" : "pointer",
-                fontFamily: "inherit",
+                opacity: page === totalPages ? 0.5 : 1,
+                cursor: page === totalPages ? "default" : "pointer",
               }}
             >
-              Next →
+              Next
             </button>
           </div>
         </div>
