@@ -26,7 +26,7 @@ app.use("/api/category", categoryRoutes);
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
-    message: "Traano Backend is running 🚀",
+    message: "NOVA AI Backend is running 🚀",
     timestamp: new Date().toISOString(),
   });
 });
@@ -78,6 +78,6 @@ if (!MONGO_URI) {
 
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Traano Backend running on http://localhost:${PORT}`);
+    console.log(`🚀 NOVA AI Backend running on http://localhost:${PORT}`);
   });
 });

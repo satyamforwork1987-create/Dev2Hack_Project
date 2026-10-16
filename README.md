@@ -1,7 +1,7 @@
-# Traano — Personal Finance Anomaly & Behavioral Intelligence Platform
+# NOVA AI — Personal Finance Anomaly & Behavioral Intelligence Platform
 
 ## One-Line Project Description
-Traano is an AI-powered web application that analyzes bank statements, automatically categorizes transactions, and detects unusual financial behavior using statistical anomaly detection and Gemini-generated explainable insights.
+NOVA AI is an AI-powered web application that analyzes bank statements, automatically categorizes transactions, and detects unusual financial behavior using statistical anomaly detection and Gemini-generated explainable insights.
 
 ---
 
@@ -55,14 +55,14 @@ Today’s users perform most of their financial activity through UPI, credit car
 # 3. Proposed Solution
 
 ## Solution Overview
-Traano is a full-stack intelligent financial monitoring platform that converts raw bank statements into meaningful behavioral insights. The system allows users to upload transaction statements in CSV or PDF formats, automatically extracts and structures transactions, categorizes expenses using AI, and analyzes spending behavior using statistical anomaly detection models.
+NOVA AI is a full-stack intelligent financial monitoring platform that converts raw bank statements into meaningful behavioral insights. The system allows users to upload transaction statements in CSV or PDF formats, automatically extracts and structures transactions, categorizes expenses using AI, and analyzes spending behavior using statistical anomaly detection models.
 
-Instead of only visualizing expenses, Traano actively monitors financial patterns and identifies irregular transactions. The platform not only flags anomalies but also explains why a transaction is unusual, enabling users to quickly understand potential risks and spending changes.
+Instead of only visualizing expenses, NOVA AI actively monitors financial patterns and identifies irregular transactions. The platform not only flags anomalies but also explains why a transaction is unusual, enabling users to quickly understand potential risks and spending changes.
 
 ---
 
 ## Core Idea
-The core idea behind Traano is to shift personal finance from *passive record-keeping to proactive financial awareness*.
+The core idea behind NOVA AI is to shift personal finance from *passive record-keeping to proactive financial awareness*.
 
 Rather than requiring users to manually inspect statements, the system:
 •⁠  ⁠Understands transaction context (merchant behavior)
@@ -70,7 +70,7 @@ Rather than requiring users to manually inspect statements, the system:
 •⁠  ⁠Detects deviations
 •⁠  ⁠Provides explainable alerts
 
-Traano combines rule-based processing, statistical analysis, and AI reasoning (Gemini API) to interpret financial activity similarly to internal bank monitoring systems, but in a user-centric and transparent manner.
+NOVA AI combines rule-based processing, statistical analysis, and AI reasoning (Gemini API) to interpret financial activity similarly to internal bank monitoring systems, but in a user-centric and transparent manner.
 
 ---
 
@@ -111,7 +111,7 @@ User → Frontend → Backend API → Processing & AI Models → Database → In
 usecaseDiagram
   actor User
   
-  package "Traano Platform" {
+  package "NOVA AI Platform" {
     usecase "Sign Up / Login" as UC1
     usecase "Upload CSV Statement" as UC2
     usecase "Automatic Column Detection" as UC3
@@ -135,7 +135,7 @@ usecaseDiagram
   UC4 ..> UC6 : <<includes>>
 ```
 ## Architecture Description
-Traano follows a modular full-stack architecture consisting of a web interface, an API server, an AI processing layer, and a database.
+NOVA AI follows a modular full-stack architecture consisting of a web interface, an API server, an AI processing layer, and a database.
 
 1.⁠ ⁠*Frontend (React Web Application)*  
    Provides dashboard visualizations, file upload interface, anomaly alerts, and financial insights to the user.
@@ -167,7 +167,7 @@ Traano follows a modular full-stack architecture consisting of a web interface, 
 ---
 
 ## ER Diagram Description
-The Traano database is designed to store structured financial data while supporting behavioral analysis and anomaly tracking.
+The NOVA AI database is designed to store structured financial data while supporting behavioral analysis and anomaly tracking.
 
 The system contains four primary entities:
 
@@ -209,7 +209,7 @@ Semi-structured financial transaction data including:
 •⁠  ⁠Reference information
 
 ## Selection Reason
-The objective of Traano is to analyze *real personal financial behavior*, not synthetic or pre-cleaned datasets. Therefore, the system works directly with raw bank statements as they are downloaded by users. This makes the platform practical and applicable in real-world scenarios.
+The objective of NOVA AI is to analyze *real personal financial behavior*, not synthetic or pre-cleaned datasets. Therefore, the system works directly with raw bank statements as they are downloaded by users. This makes the platform practical and applicable in real-world scenarios.
 
 ## Preprocessing Steps
 1.⁠ ⁠File upload handling
@@ -232,7 +232,7 @@ Hybrid Statistical Anomaly Detection + AI Reasoning (Gemini API)
 ## Selection Reasoning
 Financial anomaly detection in personal transactions does not require heavy deep learning models because labeled fraud datasets are not available for individual users. Instead, behavioral deviation detection is more effective.
 
-Traano uses statistical techniques to model normal spending behavior and identify deviations. The Gemini API is used to interpret transactions semantically and generate human-readable explanations.
+NOVA AI uses statistical techniques to model normal spending behavior and identify deviations. The Gemini API is used to interpret transactions semantically and generate human-readable explanations.
 
 This hybrid approach ensures:
 •⁠  ⁠Practical implementation
@@ -361,9 +361,9 @@ These were not selected because they require large labeled datasets and training
 ---
 
 # 12. Demo & Video
-**Live Demo Link:** [traano.vercel.app](https://traano.vercel.app)  
+**Live Demo Link:** [nova-ai.vercel.app](https://nova-ai.vercel.app)  
 **Demo Video Link:** https://drive.google.com/file/d/19DXsVjBnuxVdRZl1NGlRfIEFWRyueu4p/view?usp=sharing
-**GitHub Repository:** [https://github.com/dingdong-vamshi/Traano](https://github.com/dingdong-vamshi/Traano)
+**GitHub Repository:** [https://github.com/satyamforwork1987-create/Dev2Hack_Project](https://github.com/satyamforwork1987-create/Dev2Hack_Project)
 **ppt link :** [https://drive.google.com/file/d/1CZRWD6vax76zb-92-QaM1-rxc84D499E/view?usp=sharing]
 
 ---
@@ -380,9 +380,7 @@ These were not selected because they require large labeled datasets and training
 
 | Member Name | Role | Responsibilities |
 | :--- | :--- | :--- |
-| **Vamshi** | Ideation & System Design | • Problem identification & solution concept<br>• Designed system workflow (8-stage pipeline)<br>• Planned database structure & anomaly strategy |
-| **Harshita Jain** | Frontend Developer | • Built UI using React & Tailwind<br>• Developed interactive dashboard & charts<br>• Integrated frontend with backend APIs |
-| **Rithwik Kuchana** | Backend Developer | • Developed APIs using Node.js & Express<br>• Implemented parsing & anomaly detection logic<br>• Managed MongoDB database & data security |
+| **Satyam Kumar** | Lead Full-Stack & AI Engineer | • System architecture & automated statement ingestion pipeline<br>• Statistical anomaly detection & Gemini AI semantic categorization<br>• Full-stack implementation (React, Node.js, Express, MongoDB) |
 
 ---
 
@@ -408,4 +406,4 @@ These were not selected because they require large labeled datasets and training
 ---
 
 # 17. Impact
-Traano shifts personal finance management from tedious retroactive record-keeping to proactive awareness. It bridges the gap between raw data and understandable insights, giving users confidence and ensuring that unusual, unauthorized, or fraudulent charges never slip past unnoticed.
+NOVA AI shifts personal finance management from tedious retroactive record-keeping to proactive awareness. It bridges the gap between raw data and understandable insights, giving users confidence and ensuring that unusual, unauthorized, or fraudulent charges never slip past unnoticed.

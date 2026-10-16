@@ -1,19 +1,19 @@
 {
-  "name": "traano",
+  "name": "nova-ai",
   "version": "1.0.0",
-  "description": "Traano is an AI-powered web application that analyzes bank statements, automatically categorizes transactions, and detects unusual financial behavior using statistical anomaly detection and Gemini-generated explainable insights.",
+  "description": "NOVA AI is an intelligent web application that analyzes bank statements, automatically categorizes transactions, and detects unusual financial behavior using statistical anomaly detection and Gemini-generated explainable insights.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dingdong-vamshi/Traano.git"
+    "url": "git+https://github.com/satyamforwork1987-create/Dev2Hack_Project.git"
   },
-  "author": "",
+  "author": "Satyam Kumar",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dingdong-vamshi/Traano/issues"
+    "url": "https://github.com/satyamforwork1987-create/Dev2Hack_Project/issues"
   },
-  "homepage": "https://github.com/dingdong-vamshi/Traano#readme"
+  "homepage": "https://github.com/satyamforwork1987-create/Dev2Hack_Project#readme"
 }

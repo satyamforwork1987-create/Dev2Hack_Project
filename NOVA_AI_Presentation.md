@@ -1,7 +1,7 @@
-# Traano — Presentation Slides
+# NOVA AI — Presentation Slides
 
 ## Slide 1: Title Slide
-**Title:** Traano
+**Title:** NOVA AI
 **Subtitle:** Personal Finance Anomaly & Behavioral Intelligence Platform]\
 
 
@@ -19,7 +19,7 @@
 ---
 
 ## Slide 3: Proposed Solution
-**Heading: Proactive Financial Awareness with Traano**
+**Heading: Proactive Financial Awareness with NOVA AI**
 - **Automated Intelligence:** Converts raw bank statements into structured, actionable behavioral insights.
 - **Smart Categorization:** Automatically maps transactions to meaningful expense categories using AI.
 - **Behavioral Deviation Tracking:** Learns the user's normal spending patterns and statistically detects deviations.

@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Traano Backend — Personal Finance Intelligence API",
+  "description": "NOVA AI Backend — Personal Finance Intelligence API",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
